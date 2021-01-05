@@ -45,3 +45,19 @@ brew install jmeter
     # example override of URL and PORT set to run for 20 loops
     ./load.sh 44.234.152.110 80 20
     ```
+
+# Dynatrace Setup
+
+The script send a custom header with the script information that can be pulled out as [Dynatrace request attributes](https://www.dynatrace.com/support/help/how-to-use-dynatrace/transactions-and-services/basic-concepts/request-attributes/).  
+
+You will need to configure these three as show below.
+
+<img src="readme-images/request-attribute-list.png" width="500"/>
+
+<img src="readme-images/request-attribute-setup.png" width="700"/>
+
+Here is how they look once they are configured.
+
+<img src="readme-images/request-attributes.png" width="400"/>
+
+<img src="readme-images/request-attributes-tns.png" width="400"/>
