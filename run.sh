@@ -51,7 +51,7 @@ FULLIMAGE=$REPOSITORY/$IMAGE:$VERSION_TAG
 
 if [ "$TEST_DEBUG" == "true"]
 then
-    echo "Running docker non-detached mode"
+    echo "Running docker foreground mode"
     docker run -it \
         --env SERVER_URL=$SERVER_URL \
         --env SERVER_PORT=$SERVER_PORT \
@@ -62,8 +62,9 @@ then
         --env TEST_DEBUG=$TEST_DEBUG \
         $FULLIMAGE
 else
-    echo "Running docker detached.  Run 'sudo docker ps' to monitor"
+    echo "Running docker detached mode.  Run 'sudo docker ps' to monitor"
     docker run -it \
+        -d \
         --env SERVER_URL=$SERVER_URL \
         --env SERVER_PORT=$SERVER_PORT \
         --env NUM_LOOPS=$NUM_LOOPS \
@@ -71,5 +72,5 @@ else
         --env THINK_TIME=$THINK_TIME \
         --env TEST_SCRIPT=$TEST_SCRIPT \
         --env TEST_DEBUG=$TEST_DEBUG \
-        $FULLIMAGE -d
+        $FULLIMAGE 
 fi
