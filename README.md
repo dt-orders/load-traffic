@@ -1,6 +1,8 @@
 # Overview
 
-This is a simple script to send some load traffic using JMeter to the dt-orders app with a configurable loop count and base URL. The JMeter test script is build into the image so there is no need to Docker volumes.
+This is a simple script to send some load traffic using JMeter to the dt-orders app with a configurable loop count and base URL. The JMeter test script is build into the image so there is no need to Docker volumes. 
+
+See the [overview repo](https://github.com/dt-orders/overview) for how to setup the application.
 
 # Running
 
@@ -15,18 +17,19 @@ docker run -it \
     --env NUM_LOOPS=1000 \
     --env NUM_THREADS=1 \
     --env THINK_TIME=250 \
-    --env TEST_SCRIPT="/load.jmx"
-    dtdemos/dt-orders-load:1
+    --env TEST_SCRIPT="/load.jmx" \
+    --env TEST_DEBUG=false \
+    dtdemos/dt-orders-load:1 -d
 ```
 
 Use `run.sh` as a helper script to test the docker image using `docker run` command
 
 ```
 # example override of URL and PORT, run for 1 loops, 1 thread, 250ms thinktime, and debug OFF
-./run.sh 172.17.0.1 80 1 1 250 load.jmx false
+sudo ./run.sh 172.17.0.1 80 1 1 250 load.jmx false
 
 # example override of URL and PORT, run for 1 loops, 1 thread, 250ms thinktime, and debug ON
-./run.sh 44.234.152.110 80 1 1 250 load.jmx true
+sudo ./run.sh 44.234.152.110 80 1 1 250 load.jmx true
 ```
 
 # Development

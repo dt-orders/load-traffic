@@ -49,12 +49,27 @@ IMAGE=dt-orders-load
 VERSION_TAG=1
 FULLIMAGE=$REPOSITORY/$IMAGE:$VERSION_TAG
 
-docker run -it \
-    --env SERVER_URL=$SERVER_URL \
-    --env SERVER_PORT=$SERVER_PORT \
-    --env NUM_LOOPS=$NUM_LOOPS \
-    --env NUM_THREADS=$NUM_THREADS \
-    --env THINK_TIME=$THINK_TIME \
-    --env TEST_SCRIPT=$TEST_SCRIPT \
-    --env TEST_DEBUG=$TEST_DEBUG \
-    $FULLIMAGE
+if [ "$TEST_DEBUG" == "true"]
+then
+    echo "Running docker non-detached mode"
+    docker run -it \
+        --env SERVER_URL=$SERVER_URL \
+        --env SERVER_PORT=$SERVER_PORT \
+        --env NUM_LOOPS=$NUM_LOOPS \
+        --env NUM_THREADS=$NUM_THREADS \
+        --env THINK_TIME=$THINK_TIME \
+        --env TEST_SCRIPT=$TEST_SCRIPT \
+        --env TEST_DEBUG=$TEST_DEBUG \
+        $FULLIMAGE
+else
+    echo "Running docker detached.  Run 'sudo docker ps' to monitor"
+    docker run -it \
+        --env SERVER_URL=$SERVER_URL \
+        --env SERVER_PORT=$SERVER_PORT \
+        --env NUM_LOOPS=$NUM_LOOPS \
+        --env NUM_THREADS=$NUM_THREADS \
+        --env THINK_TIME=$THINK_TIME \
+        --env TEST_SCRIPT=$TEST_SCRIPT \
+        --env TEST_DEBUG=$TEST_DEBUG \
+        $FULLIMAGE -d
+fi
