@@ -6,6 +6,8 @@ This is a simple script to send some load traffic using JMeter to the dt-orders 
 
 Assuming the dt-orders app is running, start docker with this command and adjust arguments as needed.  
 
+NOTE: 172.17.0.1 is a special IP within Docker that refers to the host that is running the Docker image
+
 ```
 docker run -it \
     --env SERVER_URL=172.17.0.1 \
@@ -17,11 +19,14 @@ docker run -it \
     dtdemos/dt-orders-load:1
 ```
 
-Use `run.sh` as a helper script to test the docker image.
+Use `run.sh` as a helper script to test the docker image using `docker run` command
 
 ```
-# example override of URL and PORT set to run for 20 loops
-./run.sh 44.234.152.110 80 20
+# example override of URL and PORT, run for 1 loops, 1 thread, 250ms thinktime, and debug OFF
+./run.sh 172.17.0.1 80 1 1 250 load.jmx false
+
+# example override of URL and PORT, run for 1 loops, 1 thread, 250ms thinktime, and debug ON
+./run.sh 44.234.152.110 80 1 1 250 load.jmx true
 ```
 
 # Development
@@ -39,11 +44,14 @@ brew install jmeter
 
 * Use the JMeter UI to edit the script.  
 * Use `buildpush.sh` to build and push the Docker image
-* Use `load.sh` as a helper script to test the JMeter script
+* Use `load.sh` as a helper script to test the `jmeter` executable directly
 
     ```
-    # example override of URL and PORT set to run for 20 loops
-    ./load.sh 44.234.152.110 80 20
+    # example override of URL and PORT, run for 1 loops, 1 thread, 250ms thinktime, and debug ON
+    ./load.sh 3.224.9.137 80 1 1 250 load.jmx true
+
+    # example override of URL and PORT, run for 1 loops, 1 thread, 250ms thinktime, and debug OFF
+    ./load.sh localhost 80 1 1 250 load.jmx false
     ```
 
 # Dynatrace Setup

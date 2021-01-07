@@ -38,6 +38,12 @@ then
     TEST_SCRIPT="load.jmx"
 fi
 
+TEST_DEBUG=$7
+if [ -z "$TEST_DEBUG" ]
+then
+    TEST_DEBUG=false
+fi
+
 REPOSITORY=dtdemos
 IMAGE=dt-orders-load
 VERSION_TAG=1
@@ -49,5 +55,6 @@ docker run -it \
     --env NUM_LOOPS=$NUM_LOOPS \
     --env NUM_THREADS=$NUM_THREADS \
     --env THINK_TIME=$THINK_TIME \
-    --env TEST_SCRIPT="/load.jmx" \
+    --env TEST_SCRIPT=$TEST_SCRIPT \
+    --env TEST_DEBUG=$TEST_DEBUG \
     $FULLIMAGE

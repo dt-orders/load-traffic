@@ -36,6 +36,12 @@ then
     TEST_SCRIPT="load.jmx"
 fi
 
+TEST_DEBUG=$7
+if [ -z "$TEST_DEBUG" ]
+then
+    TEST_DEBUG=false
+fi
+
 echo "============================================================================"
 echo "START Running Jmeter on `date`"
 echo "SERVER_URL  : $SERVER_URL"
@@ -44,12 +50,27 @@ echo "NUM_THREADS : $NUM_THREADS"
 echo "NUM_LOOPS   : $NUM_LOOPS"
 echo "THINK_TIME  : $THINK_TIME"
 echo "TEST_SCRIPT : $TEST_SCRIPT"
+echo "TEST_DEBUG  : $TEST_DEBUG"
 echo "============================================================================"
+#exit
+if [ "$TEST_DEBUG" == "true" ]
+then        
+    jmeter -n -t $TEST_SCRIPT \
+        -JSERVER_URL=$SERVER_URL \
+        -JSERVER_PORT=$SERVER_PORT \
+        -JNUM_THREADS=$NUM_THREADS \
+        -JNUM_LOOPS=$NUM_LOOPS \
+        -JTHINK_TIME=$THINK_TIME \
+        -l out.log 
+    cat jmeter.log
+    cat out.log
+else
+    jmeter -n -t $TEST_SCRIPT \
+        -JSERVER_URL=$SERVER_URL \
+        -JSERVER_PORT=$SERVER_PORT \
+        -JNUM_THREADS=$NUM_THREADS \
+        -JNUM_LOOPS=$NUM_LOOPS \
+        -JTHINK_TIME=$THINK_TIME
+fi
 
-jmeter -n -t $TEST_SCRIPT \
-    -JSERVER_URL=$SERVER_URL \
-    -JSERVER_PORT=$SERVER_PORT \
-    -JNUM_THREADS=$NUM_THREADS \
-    -JNUM_LOOPS=$NUM_LOOPS \
-    -JTHINK_TIME=$THINK_TIME # uncomment out for debugging -l out.log && cat out.log
 echo "END Running Jmeter on `date`"     
