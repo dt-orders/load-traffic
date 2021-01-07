@@ -12,7 +12,7 @@ NOTE: 172.17.0.1 is a special IP within Docker that refers to the host that is r
 
 ```
 docker run -it \
-    --env SERVER_URL=172.17.0.1 \
+    --env HOSTNAME=172.17.0.1 \
     --env SERVER_PORT=80 \
     --env NUM_LOOPS=1000 \
     --env NUM_THREADS=1 \
@@ -25,10 +25,10 @@ docker run -it \
 Use `run.sh` as a helper script to test the docker image using `docker run` command
 
 ```
-# example override of URL and PORT, run for 1 loops, 1 thread, 250ms thinktime, and debug OFF
-sudo ./run.sh 172.17.0.1 80 1 1 250 load.jmx false
+# example override of URL and PORT, run for 10000 loops in detached mode
+sudo ./run.sh 172.17.0.1 80 10000
 
-# example override of URL and PORT, run for 1 loops, 1 thread, 250ms thinktime, and debug ON
+# example override of URL and PORT, run for 1 loops, 1 thread, 250ms thinktime, and foreground DEBUG mode
 sudo ./run.sh 44.234.152.110 80 1 1 250 load.jmx true
 ```
 

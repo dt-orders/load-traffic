@@ -1,9 +1,9 @@
 #!/bin/bash
 
-SERVER_URL=$1
-if [ -z "$SERVER_URL" ]
+HOSTNAME=$1
+if [ -z "$HOSTNAME" ]
 then
-    SERVER_URL=172.17.0.1
+    HOSTNAME=172.17.0.1
 fi
 
 SERVER_PORT=$2
@@ -44,7 +44,7 @@ fi
 
 echo "============================================================================"
 echo "START Running Jmeter on `date`"
-echo "SERVER_URL  : $SERVER_URL"
+echo "HOSTNAME  : $HOSTNAME"
 echo "SERVER_PORT : $SERVER_PORT"
 echo "NUM_THREADS : $NUM_THREADS"
 echo "NUM_LOOPS   : $NUM_LOOPS"
@@ -56,7 +56,7 @@ echo "==========================================================================
 if [ "$TEST_DEBUG" == "true" ]
 then        
     jmeter -n -t $TEST_SCRIPT \
-        -JSERVER_URL=$SERVER_URL \
+        -JHOSTNAME=$HOSTNAME \
         -JSERVER_PORT=$SERVER_PORT \
         -JNUM_THREADS=$NUM_THREADS \
         -JNUM_LOOPS=$NUM_LOOPS \
@@ -66,7 +66,7 @@ then
     cat out.log
 else
     jmeter -n -t $TEST_SCRIPT \
-        -JSERVER_URL=$SERVER_URL \
+        -JHOSTNAME=$HOSTNAME \
         -JSERVER_PORT=$SERVER_PORT \
         -JNUM_THREADS=$NUM_THREADS \
         -JNUM_LOOPS=$NUM_LOOPS \

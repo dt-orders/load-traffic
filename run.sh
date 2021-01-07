@@ -2,10 +2,10 @@
 
 clear
 
-SERVER_URL=$1
-if [ -z "$SERVER_URL" ]
+HOSTNAME=$1
+if [ -z "$HOSTNAME" ]
 then
-    SERVER_URL=172.17.0.1
+    HOSTNAME=172.17.0.1
 fi
 
 SERVER_PORT=$2
@@ -49,11 +49,11 @@ IMAGE=dt-orders-load
 VERSION_TAG=1
 FULLIMAGE=$REPOSITORY/$IMAGE:$VERSION_TAG
 
-if [ "$TEST_DEBUG" == "true"]
+if [ "$TEST_DEBUG" == "true" ]
 then
     echo "Running docker foreground mode"
     docker run -it \
-        --env SERVER_URL=$SERVER_URL \
+        --env HOSTNAME=$HOSTNAME \
         --env SERVER_PORT=$SERVER_PORT \
         --env NUM_LOOPS=$NUM_LOOPS \
         --env NUM_THREADS=$NUM_THREADS \
@@ -65,7 +65,7 @@ else
     echo "Running docker detached mode.  Run 'sudo docker ps' to monitor"
     docker run -it \
         -d \
-        --env SERVER_URL=$SERVER_URL \
+        --env HOSTNAME=$HOSTNAME \
         --env SERVER_PORT=$SERVER_PORT \
         --env NUM_LOOPS=$NUM_LOOPS \
         --env NUM_THREADS=$NUM_THREADS \
