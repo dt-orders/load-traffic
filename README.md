@@ -22,14 +22,14 @@ docker run -it \
     dtdemos/dt-orders-load:1 -d
 ```
 
-Use `run.sh` as a helper script to test the docker image using `docker run` command
+Use `start-load.sh` and `stop-load.sh` as a helper scripts to test the docker image using `docker run` command
 
 ```
 # example override of URL and PORT, run for 10000 loops in detached mode
-sudo ./run.sh 172.17.0.1 80 10000
+sudo ./start-load.sh 172.17.0.1 80 10000
 
 # example override of URL and PORT, run for 1 loops, 1 thread, 250ms thinktime, and foreground DEBUG mode
-sudo ./run.sh 44.234.152.110 80 1 1 250 load.jmx true
+sudo ./start-load.sh 44.234.152.110 80 1 1 250 load.jmx true
 ```
 
 # Development
