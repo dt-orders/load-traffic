@@ -15,7 +15,7 @@ fi
 NUM_LOOPS=$3
 if [ -z "$NUM_LOOPS" ]
 then
-    NUM_LOOPS=10000
+    NUM_LOOPS=100000
 fi
 
 NUM_THREADS=$4
