@@ -22,7 +22,15 @@ docker build -t $FULLIMAGE .
 
 echo ""
 echo "========================================================"
-echo "Ready to push $FULLIMAGE ?"
+echo "Ready to run $FULLIMAGE ?"
 echo "========================================================"
 read -rsp "Press ctrl-c to abort. Press any key to continue"
-docker push $FULLIMAGE
+docker run \
+    --env HOSTNAME=172.17.0.1 \
+    --env SERVER_PORT=80 \
+    --env NUM_LOOPS=1 \
+    --env NUM_THREADS=1 \
+    --env TEST_SCRIPT="/load.jmx" \
+    --env TEST_DEBUG=false \
+    --env THINK_TIME=250 \
+    dtdemos/dt-orders-load:1

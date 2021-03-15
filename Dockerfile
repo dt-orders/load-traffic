@@ -40,5 +40,6 @@ RUN apk add --update openjdk8-jre tzdata curl unzip bash \
 
 COPY load.sh /
 COPY load.jmx /
+COPY gen/MANIFEST .
 
-ENTRYPOINT /load.sh ${HOSTNAME} ${SERVER_PORT} ${NUM_LOOPS} ${NUM_THREADS} ${THINK_TIME} ${TEST_SCRIPT} ${TEST_DEBUG}
+CMD ["sh", "-c", "cat MANIFEST && /load.sh ${HOSTNAME} ${SERVER_PORT} ${NUM_LOOPS} ${NUM_THREADS} ${THINK_TIME} ${TEST_SCRIPT} ${TEST_DEBUG}"]
