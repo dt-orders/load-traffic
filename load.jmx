@@ -27,11 +27,6 @@
             <stringProp name="Argument.value">Default</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="DefaultThinkTime" elementType="Argument">
-            <stringProp name="Argument.name">DefaultThinkTime</stringProp>
-            <stringProp name="Argument.value">250</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
@@ -41,7 +36,7 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">${__P(NUM_LOOPS,1)}</stringProp>
+          <stringProp name="LoopController.loops">${__P(NUM_LOOPS,100)}</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${__P(NUM_THREADS,1)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
@@ -92,6 +87,25 @@ String headerValue = &quot;LSN=&quot;+ LSN + &quot;;TSN=&quot; + TSN + &quot;;LT
 HeaderManager hm = sampler.getHeaderManager();
 hm.removeHeaderNamed(&quot;x-dynatrace-test&quot;);
 hm.add(new org.apache.jmeter.protocol.http.control.Header(&quot;x-dynatrace-test&quot;, headerValue));</stringProp>
+        </BeanShellPreProcessor>
+        <hashTree/>
+        <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="Set Custom Headers" enabled="true">
+          <boolProp name="resetInterpreter">true</boolProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="script">import org.apache.jmeter.util.JMeterUtils;
+import org.apache.jmeter.protocol.http.control.HeaderManager;
+import java.io;
+import java.util;
+import java.util.concurrent.ThreadLocalRandom;
+
+String headerValue = String.valueOf(ThreadLocalRandom.current().nextInt(1,1000000));
+
+// Set header
+// -------------------------------------------
+HeaderManager hm = sampler.getHeaderManager();
+hm.removeHeaderNamed(&quot;x-test-user&quot;);
+hm.add(new org.apache.jmeter.protocol.http.control.Header(&quot;x-test-user&quot;, headerValue));</stringProp>
         </BeanShellPreProcessor>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Home" enabled="true">
@@ -246,12 +260,13 @@ hm.add(new org.apache.jmeter.protocol.http.control.Header(&quot;x-dynatrace-test
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
-          <stringProp name="ConstantTimer.delay">{__P(THINK_TIME,${DefaultThinkTime})}</stringProp>
-        </ConstantTimer>
+        <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Uniform Random Timer" enabled="true">
+          <stringProp name="ConstantTimer.delay">0</stringProp>
+          <stringProp name="RandomTimer.range">${__P(THINK_TIME,250)}</stringProp>
+        </UniformRandomTimer>
         <hashTree/>
       </hashTree>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
