@@ -7,7 +7,7 @@ then
 fi
 
 attempt_counter=0
-max_attempts=2
+max_attempts=10
 connect_timeout=2
 sleep_time=10
 
@@ -28,4 +28,7 @@ wait_for_page() {
     echo " Ready."
 }
 
-wait_for_page $URL 
+wait_for_page $URL
+wait_for_page $URL/customer/version
+wait_for_page $URL/catalog/version
+wait_for_page $URL/order/version
