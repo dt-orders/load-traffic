@@ -39,7 +39,8 @@ RUN apk add --update openjdk8-jre tzdata curl unzip bash \
 	&& rm -rf /tmp/dependencies
 
 COPY load.sh /
+COPY wait-until-ready.sh /
 COPY load.jmx /
 COPY gen/MANIFEST .
 
-CMD ["sh", "-c", "cat MANIFEST && /load.sh ${HOSTNAME} ${SERVER_PORT} ${NUM_LOOPS} ${NUM_THREADS} ${THINK_TIME} ${TEST_SCRIPT} ${TEST_DEBUG}"]
+CMD ["sh", "-c", "cat MANIFEST && /wait-until-ready.sh http://${HOSTNAME}:${SERVER_PORT} && /load.sh ${HOSTNAME} ${SERVER_PORT} ${NUM_LOOPS} ${NUM_THREADS} ${THINK_TIME} ${TEST_SCRIPT} ${TEST_DEBUG}"]
