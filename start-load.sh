@@ -1,42 +1,48 @@
 #!/bin/bash
 
-HOSTNAME=$1
+MONOLITH=$1
+if [ -z "$MONOLITH" ]
+then
+    MONOLITH=false
+fi
+
+HOSTNAME=$2
 if [ -z "$HOSTNAME" ]
 then
     HOSTNAME=172.17.0.1
 fi
 
-SERVER_PORT=$2
+SERVER_PORT=$3
 if [ -z "$SERVER_PORT" ]
 then
     SERVER_PORT=80
 fi
 
-NUM_LOOPS=$3
+NUM_LOOPS=$4
 if [ -z "$NUM_LOOPS" ]
 then
     NUM_LOOPS=100000
 fi
 
-NUM_THREADS=$4
+NUM_THREADS=$5
 if [ -z "$NUM_THREADS" ]
 then
     NUM_THREADS=1
 fi
 
-THINK_TIME=$5
+THINK_TIME=$6
 if [ -z "$THINK_TIME" ]
 then
     THINK_TIME=250
 fi
 
-TEST_SCRIPT=$6
+TEST_SCRIPT=$7
 if [ -z "$TEST_SCRIPT" ]
 then
     TEST_SCRIPT="load.jmx"
 fi
 
-TEST_DEBUG=$7
+TEST_DEBUG=$8
 if [ -z "$TEST_DEBUG" ]
 then
     TEST_DEBUG=false
@@ -58,6 +64,7 @@ then
         --env THINK_TIME=$THINK_TIME \
         --env TEST_SCRIPT=$TEST_SCRIPT \
         --env TEST_DEBUG=$TEST_DEBUG \
+        --env MONOLITH=$MONOLITH \
         --label dt-orders-load \
         $FULLIMAGE
 else
@@ -71,6 +78,7 @@ else
         --env THINK_TIME=$THINK_TIME \
         --env TEST_SCRIPT=$TEST_SCRIPT \
         --env TEST_DEBUG=$TEST_DEBUG \
+        --env MONOLITH=$MONOLITH \
         --label dt-orders-load \
         $FULLIMAGE 
 fi

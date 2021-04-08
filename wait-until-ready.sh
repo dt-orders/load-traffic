@@ -1,9 +1,16 @@
 #!/bin/bash
 
 URL=$1
+MONOLITH=$2
+
 if [ -z "$URL" ]
 then
     URL=http://172.17.0.1
+fi
+
+if [ -z "$MONOLITH" ]
+then
+    MONOLITH=false
 fi
 
 attempt_counter=0
@@ -28,7 +35,15 @@ wait_for_page() {
     echo " Ready."
 }
 
-wait_for_page $URL
-wait_for_page $URL/customer/version
-wait_for_page $URL/catalog/version
-wait_for_page $URL/order/version
+if [ "$MONOLITH" == "true" ]
+then
+    echo "Waiting for MONOLITH to be ready"
+    wait_for_page $URL
+    wait_for_page $URL/version
+else
+    echo "Waiting for non-MONOLITH to be ready"
+    wait_for_page $URL
+    wait_for_page $URL/customer/version
+    wait_for_page $URL/catalog/version
+    wait_for_page $URL/order/version
+fi

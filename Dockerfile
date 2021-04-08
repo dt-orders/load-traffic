@@ -1,5 +1,9 @@
 FROM alpine:3.9
 
+# used to control the path used
+ARG MONOLITH=false
+ENV MONOLITH=$MONOLITH
+
 # default and allow for overides to script arguments
 ARG TEST_SCRIPT=load.jmx
 ENV TEST_SCRIPT=$TEST_SCRIPT
@@ -43,4 +47,4 @@ COPY wait-until-ready.sh /
 COPY load.jmx /
 COPY gen/MANIFEST .
 
-CMD ["sh", "-c", "cat MANIFEST && /wait-until-ready.sh http://${HOSTNAME}:${SERVER_PORT} && /load.sh ${HOSTNAME} ${SERVER_PORT} ${NUM_LOOPS} ${NUM_THREADS} ${THINK_TIME} ${TEST_SCRIPT} ${TEST_DEBUG}"]
+CMD ["sh", "-c", "cat MANIFEST && /wait-until-ready.sh http://${HOSTNAME}:${SERVER_PORT} $MONOLITH && /load.sh ${HOSTNAME} ${SERVER_PORT} ${NUM_LOOPS} ${NUM_THREADS} ${THINK_TIME} ${TEST_SCRIPT} ${TEST_DEBUG}"]

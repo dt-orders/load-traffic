@@ -19,6 +19,7 @@ docker run -it \
     --env THINK_TIME=250 \
     --env TEST_SCRIPT="/load.jmx" \
     --env TEST_DEBUG=false \
+    --env MONOLITH=true \
     dtdemos/dt-orders-load:1 -d
 ```
 
@@ -26,10 +27,10 @@ Use `start-load.sh` and `stop-load.sh` as a helper scripts to test the docker im
 
 ```
 # example override of URL and PORT, run for 10000 loops in detached mode
-sudo ./start-load.sh 172.17.0.1 80 10000
+sudo ./start-load.sh false 172.17.0.1 80 10000
 
 # example override of URL and PORT, run for 1 loops, 1 thread, 250ms thinktime, and foreground DEBUG mode
-sudo ./start-load.sh 44.234.152.110 80 1 1 250 load.jmx true
+sudo ./start-load.sh false 44.234.152.110 80 1 1 250 load.jmx true
 ```
 
 # Development
