@@ -39,7 +39,7 @@ if [ "$MONOLITH" == "true" ]
 then
     echo "Waiting for MONOLITH to be ready"
     wait_for_page $URL
-    wait_for_page $URL/version
+    wait_for_page $URL/backend/version
 else
     echo "Waiting for non-MONOLITH to be ready"
     wait_for_page $URL
